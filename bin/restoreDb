@@ -1,10 +1,31 @@
 #!/bin/sh
 
+# Have arguments been provided?
+db_name=$1
+
+if [ -z "$db_name" ]
+then
+    echo "Please provide a database name to restore (without path), e.g. Cardinal"
+    exit 1
+fi
+
+# Have Creds been loaded?
+sa_pass=$MSSQL_DOCKER_SA_PASS
+backup_dir_loc=$MSSQL_DOCKER_BU_DIR
+
+if [[ -z "$sa_pass" || -z "$backup_dir_loc" ]]
+then
+    echo "Your creds file hasn't been correctly loaded.  You should have received an error regarding this when loading the profile (source profile).  Please review over the documentation on the Github Repo or the blog post"
+    exit 1
+fi
+
+
+# Both okay? lets go
 image_name='mcr.microsoft.com/mssql/server'
 backup_dir_base='/mnt/storage_disk/work/TDT/DatabaseBackups'
 temp_md5=`date | md5 | cut -f 1 -d ' '`
 temp_dir="/tmp/$temp_md5"
-db_name=$1
+
 
 full_backup="$backup_dir_base/$db_name.bak"
 
