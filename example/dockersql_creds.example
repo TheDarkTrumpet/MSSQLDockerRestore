@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export MSSQL_DOCKER_SA_PASS=pAssw04d
+export MSSQL_DOCKER_BU_DIR=/mnt/Storage.TDT/work/TDT/DatabaseBackups
